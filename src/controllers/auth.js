@@ -1,15 +1,13 @@
 const jwt = require('jsonwebtoken');
 const request = require('request-promise');
+const User = require('../models/user');
 
 const createJWT = (user, callback) => {
   const payload = {
     id: user._id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
   };
   
-  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '10m' }, callback);
+  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, callback);
 };
 
 const monzo = (req, res) => {
@@ -22,6 +20,9 @@ const monzo = (req, res) => {
       code: req.body.code,
     },
   })
+  .then((response) => {
+
+  })
   // .then(response => request.get('https://api.monzo.com/accounts', {
   //   headers: {
   //     'Authorization': `token ${response.access_token}`,
@@ -29,6 +30,8 @@ const monzo = (req, res) => {
   //   },
   // }))
   .then((user) => {
+    console.log(user);
+    
     createJWT(user, (err, token) => {
       if (err) {
         res.sendStatus(500);

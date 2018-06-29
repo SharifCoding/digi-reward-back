@@ -20,21 +20,15 @@ const monzo = (req, res) => {
       code: req.body.code,
     },
   })
-  // ***************** MICHAEL'S SUGGESTION TO ADD BELOW, 
-  // I had to comment it out to get the code to run
+  
+  // add access token to User collection here
+  .then(response => request.post('http://localhost:3000/api/v1/User', {
+   body: {
+       access_token: response.access_token,
+     },
+     json: true,
+   }))
 
-  /*.then((response) => {
-    // add access token to User collection here
-
-   }) */
-
-  // ***************** END
-
-  // .then(response => request.get('https://api.monzo.com/accounts', {
-  //   headers: {
-  //     'Authorization': `token ${response.access_token}`,
-  //   },
-  // }))
   .then((user) => {
     createJWT(user, (err, token) => {
       if (err) {

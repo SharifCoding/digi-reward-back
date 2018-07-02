@@ -5,6 +5,7 @@ const expressListRoutes = require('express-list-routes');
 const chalk = require('chalk');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const authenticate = require('./middleware/authenticate');
 
 const UserModel = require('./models/user');
 const { auth, users, account } = require('./routes');
@@ -25,7 +26,7 @@ expressListRoutes({}, '\nEndpoints:', router);
 // monzo setup
 app.use('/auth', auth);
 app.use('/users', users);
-app.use('/account', account);
+app.use('/account', authenticate, account);
 
 // hello world
 app.get('/', (req, res) => res.json({ hello: 'world!' }));

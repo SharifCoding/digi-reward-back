@@ -4,7 +4,8 @@ const request = require('request-promise');
 
 const createJWT = (user, callback) => {
   const payload = {
-    access_token: user.access_token,
+    user_id: user.user_id,
+    // access_token: user.access_token,
   };
   // console.log(payload)
   jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, callback);

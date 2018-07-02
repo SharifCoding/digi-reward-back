@@ -6,8 +6,9 @@ const chalk = require('chalk');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-const UserModel = require('./models/user');
+const User = require('./models/user');
 const { auth, users } = require('./routes');
+const authenticate = require('./middleware/authenticate');
 
 dotenv.config();
 
@@ -19,15 +20,16 @@ app.use(cors());
 
 // database setup
 app.use(router);
-restify.serve(router, UserModel);
+restify.serve(router, User);
 expressListRoutes({}, '\nEndpoints:', router);
 
 // monzo setup
 app.use('/auth', auth);
-app.use('/users', users);
+//app.use('/users', users);
+app.use('/users', authenticate, users);
 
 // hello world
-app.get('/', (req, res) => res.json({ hello: 'world!' }));
+// app.get('/', (req, res) => res.json({ hello: 'world!' }));
 
 mongoose.connect(process.env.DATABASE_URL, () => {
   console.log(chalk.bgBlue.black('\nConnected to database\n'));

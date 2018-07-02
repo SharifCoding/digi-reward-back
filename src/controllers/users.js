@@ -12,13 +12,10 @@ const index = (req, res) => {
 };
 
 const create = (req, res) => {
-  const user = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password,
-  });
-
+    const user = new User({
+      access_token: req.body.access_token,
+      user_id: req.body.user_id,
+    });
   user.save()
     .then((data) => {
       res.status(201).json(data);

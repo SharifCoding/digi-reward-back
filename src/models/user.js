@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   access_token: { type: String, require: true },
-  // user_name: { type: String, require: false },
+  user_id: { type: String, require: true },
 });
 
 userSchema.statics.findOneOrCreate = function findOneOrCreate(key, data) {

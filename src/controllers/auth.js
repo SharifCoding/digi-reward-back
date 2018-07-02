@@ -7,7 +7,7 @@ const createJWT = (user, callback) => {
     id: user._id,
   };
   
-  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, callback);
+  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, callback);
 };
 
 const monzo = (req, res) => {
@@ -23,12 +23,24 @@ const monzo = (req, res) => {
   
   // add access token to User collection here
   .then(response => request.post('http://localhost:3000/api/v1/User', {
-   body: {
-       access_token: response.access_token,
+    body: {
+      access_token: response.access_token,
+      user_id: response.user_id,
      },
      json: true,
    }))
 
+  /* .then((response) => {
+    console.log(response);
+    return request.post('http://localhost:3000/api/v1/User', {
+     body: {
+          access_token: response.access_token,
+          user_id: response.body.user_id,
+       },
+       json: true,
+     });
+  }) */
+   
   .then((user) => {
     createJWT(user, (err, token) => {
       if (err) {

@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
   access_token: { type: String, require: true },
+  client_id: { type: String, require: true },
+  expires_in: { type: Number, require: true },
+  token_type: { type: String, require: true },
   user_id: { type: String, require: true },
 });
 
-userSchema.statics.findOneOrCreate = function findOneOrCreate(key, data) {
+UserSchema.statics.findOneOrCreate = function findOneOrCreate(key, data) {
   return this.findOne(key).then((user) => {
     if (user) {
       return user;
@@ -18,6 +21,6 @@ userSchema.statics.findOneOrCreate = function findOneOrCreate(key, data) {
   });
 }
 
-const User = mongoose.model('User', userSchema);
+const UserModel = mongoose.model('UserListing', UserSchema);
 
 module.exports = User;

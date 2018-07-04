@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const request = require('request-promise');
-// const User = require('../models/user');
+const User = require('../models/user');
 
 const createJWT = (user, callback) => {
   const payload = {
@@ -36,15 +36,12 @@ const monzo = (req, res) => {
 //   }))
 
   // add access token and initial response to User collection
-  .then(response => request.post('http://localhost:3000/api/v1/UserListing', {  
-  body: {
+  .then(response => User.updateOrCreate({ user_id: response.user_id }, {
     access_token: response.access_token,
     client_id: response.client_id,
     expires_in: response.expires_in,
     token_type: response.token_type,
     user_id: response.user_id,
-     },
-     json: true,
   }))
 
   // .then((response) => {
@@ -75,6 +72,7 @@ const monzo = (req, res) => {
     res.sendStatus(200);
   })
 }
+
 
 module.exports = {
   monzo,

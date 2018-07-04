@@ -2,7 +2,8 @@ const request = require('request-promise');
 const User = require('../models/user');
 
 const account = (req, res) => {
-  User.findOne({ user_id: req.authorizer.user_id })
+  // User.findOne({ user_id: req.authorizer.user_id })
+  User.findOne({ user_id: 'user_00009OyJGmB58AqHAj2FSz' })
     .then(user => {
       console.log(user);
       return request.get('https://api.monzo.com/accounts', {

@@ -60,7 +60,7 @@ const monzo = (req, res) => {
 
   // return a JWT to the user (we don't want to reveal the access_token to the client)
   .then((user) => {
-    console.log(user);
+    //console.log(user);
     
     createJWT(user, (err, token) => {
       if (err) {

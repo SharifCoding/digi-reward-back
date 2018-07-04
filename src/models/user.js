@@ -23,4 +23,4 @@ UserSchema.statics.findOneOrCreate = function findOneOrCreate(key, data) {
 
 const UserModel = mongoose.model('UserListing', UserSchema);
 
-module.exports = User;
+module.exports = UserModel;

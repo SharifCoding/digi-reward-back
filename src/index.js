@@ -20,7 +20,7 @@ app.use(cors());
 
 // database setup
 app.use(router);
-restify.serve(router, User);
+restify.serve(router, UserModel);
 expressListRoutes({}, '\nEndpoints:', router);
 
 // monzo setup

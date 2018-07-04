@@ -4,15 +4,16 @@ const User = require('../models/user');
 const account = (req, res) => {
   User.findOne({ user_id: req.authorizer.user_id })
     .then(user => {
-      console.log(user);
+      // console.log(user);
       return request.get('https://api.monzo.com/accounts', {
       // returns account details owned by the currently authorised user
         headers: { 'Authorization': `Bearer ${user.access_token}` }
       })
-      .then((response) => {
+      then((response) => {
         console.log('***', response);
+        //res.send(response);
         // account details posted to user database
-        user.update()
+        //user.update()
       })
       .then(() => {
         res.sendStatus(200);

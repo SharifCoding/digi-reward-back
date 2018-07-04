@@ -5,7 +5,7 @@ const authenticate = (req, res, next) => {
 
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (error, authorizer) => {
-      console.log(authorizer);
+      // console.log(authorizer);
       if (error) {
         res.status(401).json({ message: 'Unable to authenticate token' });
       } else {

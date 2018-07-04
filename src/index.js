@@ -26,7 +26,7 @@ expressListRoutes({}, '\nEndpoints:', router);
 // monzo setup
 app.use('/auth', auth);
 app.use('/users', users);
-app.use('/account', authenticate, account);
+app.use('/account', /* authenticate, */ account);
 
 // hello world
 // app.get('/', (req, res) => res.json({ hello: 'world!' }));

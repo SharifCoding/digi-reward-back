@@ -18,6 +18,8 @@ const create = (req, res) => {
     expires_in: req.body.expires_in,
     token_type: req.body.token_type,
     user_id: req.body.user_id,
+    description: req.body.description,
+
   });
   user.save()
     .then((data) => {

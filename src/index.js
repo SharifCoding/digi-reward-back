@@ -5,10 +5,11 @@ const expressListRoutes = require('express-list-routes');
 const chalk = require('chalk');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const authenticate = require('./middleware/authenticate');
 
 const UserModel = require('./models/user');
-const { auth, users, account } = require('./routes');
+const {
+  auth, users, account, getTransaction, findAllRewards,
+} = require('./routes');
 
 dotenv.config();
 
@@ -26,10 +27,12 @@ expressListRoutes({}, '\nEndpoints:', router);
 // monzo setup
 app.use('/auth', auth);
 app.use('/users', users);
-app.use('/account', /* authenticate, */ account);
+app.use('/account', account);
+app.use('/transaction', getTransaction);
+app.use('/rewards', findAllRewards);
 
 // hello world
-// app.get('/', (req, res) => res.json({ hello: 'world!' }));
+app.get('/', (req, res) => res.json({ hello: 'world!' }));
 
 mongoose.connect(process.env.DATABASE_URL, () => {
   console.log(chalk.bgBlue.black('\nConnected to database\n'));

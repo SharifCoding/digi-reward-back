@@ -13,15 +13,21 @@
     "express-restify-mongoose": "^5.0.0",
     "jsonwebtoken": "^8.2.1",
     "mongoose": "^5.1.2",
+    "ramda": "^0.25.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.5",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-mcr-codes": "^1.1.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.13.0",
     "nodemon": "^1.17.5"
   },
   "scripts": {
-    "start": "nodemon src/index.js",
-    "seed": "node seeders/seed-rewards.js"
+    "start": "nodemon src/index.js"
   },
   "author": "",
   "license": "ISC"

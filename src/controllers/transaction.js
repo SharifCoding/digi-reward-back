@@ -1,32 +1,37 @@
 const request = require('request-promise');
 const User = require('../models/user');
 // const TransactionsModel = require('../models/transaction');
-const groupByMerchant = require('../helpers/groupByMerchant');
+const { groupMerchant } = require('../helpers/groupByMerchant');
+const { getRewardbyMerchant } = require('../controllers/rewards');
 
 const getTransaction = (req, res) => {
   // User.findOne({ user_id: req.authorizer.user_id })
   User.findOne({ user_id: process.env.USER_ID })
     .then((user) => {
+      // console.log(user);
       const accountID = user.account.id;
-      request.get(`https://api.monzo.com/transactions?expand[]=merchant&account_id=${accountID}`, {
+      // console.log(accountID);
+      // request.get(`https://api.monzo.com/transactions?expand[]=merchant&account_id=${process.env.ACCOUNT_ID}`, {
+      request.get(`https://api.monzo.com/transactions?account_id=${process.env.ACCOUNT_ID}`, {
         headers: { Authorization: `Bearer ${user.access_token}` },
-        // returns transaction details owned by the currently authorised user
       })
         .then((data) => {
           const response = JSON.parse(data);
-          console.log(response);
-          /* eslint-disable-next-line max-len */
-          /* const monzoTransactions = response.transactions.map(transaction => Transaction.updateOrCreate({ id: transaction.id }, {
-            id: transaction.id,
-            description: transaction.description,
-            merchant: transaction.merchant,
-            user_id: user.user_id,
-          })); */
-          // response.transactions.merchant.map(transaction =>
-          groupByMerchant(response.transactions);
-          /* Promise.all(monzoTransactions).then((transactions) => {
-            res.json(transactions);
-          }); */
+          // group the merchants and assign to `reduceReward`
+          const reduceReward = groupMerchant(response.transactions.map(transaction => transaction.merchant));
+          // console.log(reduceReward);
+          // convert from object to array
+          const arrayMerchant = Object.keys(reduceReward).map(key => [String(key), reduceReward[key]]);
+          // console.log(arrayMerchant);
+          // filter list with `getRewardbyMerchant` function
+          // getRewardbyMerchant(arrayMerchant);
+          getRewardbyMerchant(arrayMerchant)
+            .then(rewards => {
+              res.send(rewards);
+            });
+          // console.log('pretty please: ', finalMerchant);
+          // currently passing unfiltered grouped merchants to frontend
+          // res.status(201).json(finalMerchant);
         });
     })
     .catch((error) => {
